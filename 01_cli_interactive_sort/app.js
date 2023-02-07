@@ -28,10 +28,18 @@ const app = () => {
     7;
 };
 
-const sortByAlphabet = data => data.filter(item => isNaN(item)).sort((a, b) => a.localeCompare(b));
+const sortByAlphabet = data => {
+    const result = data.filter(item => isNaN(item)).sort((a, b) => a.localeCompare(b));
+
+    if (result.length === 0)
+        return console.log('There are no words in your data, sorting is not possible!');
+
+    return result;
+};
 
 const sortToIncremeant = data => {
     const result = data.filter(item => !isNaN(item)).sort((a, b) => a - b);
+
     if (result.length === 0)
         return console.log('There are no numbers in your data, sorting is not possible!');
 
@@ -47,11 +55,25 @@ const sortToDecremeant = data => {
     return result;
 };
 
-const sortToWordLettersCount = data =>
-    data.filter(item => isNaN(item)).sort((a, b) => a.length - b.length);
+const sortToWordLettersCount = data => {
+    const result = data.filter(item => isNaN(item)).sort((a, b) => a.length - b.length);
 
-const sortByUniqueWords = data =>
-    data.filter((item, index, array) => isNaN(item) && array.indexOf(item) === index);
+    if (result.length === 0)
+        return console.log('There are no words in your data, sorting is not possible!');
+
+    return result;
+};
+
+const sortByUniqueWords = data => {
+    const result = data.filter(
+        (item, index, array) => isNaN(item) && array.indexOf(item) === index
+    );
+
+    if (result.length === 0)
+        return console.log('There are no words in your data, sorting is not possible!');
+
+    return result;
+};
 
 const sortByUniqueValues = data =>
     data.filter((item, index, array) => array.indexOf(item) === index);
@@ -78,7 +100,7 @@ const howToSortData = data => {
          \nPlease enter the desired sort number:`,
         answer => {
             if (answer === '') {
-                console.log('\nYou did not enter a sort number!');
+                console.log('You did not enter a sort number!');
                 return howToSortData(data);
             }
             if (answer === 'exit') return rl.close();
@@ -86,12 +108,12 @@ const howToSortData = data => {
             if (answer === 'restart') return app();
 
             if (!options[answer]) {
-                console.log('\nThere is no such sort number!');
+                console.log('There is no such sort number!');
                 return howToSortData(data);
             }
 
             if (options[answer]) {
-                console.log('Result: ', options[answer](data).join(' '));
+                options[answer](data) && console.log('Result: ', options[answer](data).join(' '));
                 return howToSortData(data);
             }
         }
