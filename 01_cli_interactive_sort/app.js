@@ -14,11 +14,11 @@ const app = () => {
     rl.question(`Hello. Enter 10 words or digits deviding them in spaces: `, answer => {
         if (answer === 'exit') return rl.close();
 
-        if (!answer) return dataHelper('The field cannot be empty!');
+        if (!answer) return dataHelper('\nThe field cannot be empty! \n');
 
         const data = answer.split(' ');
 
-        if (data.length <= 1) return dataHelper('Please enter more than 1 value');
+        if (data.length <= 1) return dataHelper('\nPlease enter more than 1 value \n');
 
         if (data.length > 10)
             return dataHelper(`You cannot enter more than 10 values, your values ${data.length}`);
@@ -32,7 +32,7 @@ const sortByAlphabet = data => {
     const result = data.filter(item => isNaN(item)).sort((a, b) => a.localeCompare(b));
 
     if (result.length === 0)
-        return console.log('There are no words in your data, sorting is not possible!');
+        return console.log('\nThere are no words in your data, sorting is not possible!');
 
     return result;
 };
@@ -41,7 +41,7 @@ const sortToIncremeant = data => {
     const result = data.filter(item => !isNaN(item)).sort((a, b) => a - b);
 
     if (result.length === 0)
-        return console.log('There are no numbers in your data, sorting is not possible!');
+        return console.log('\nThere are no numbers in your data, sorting is not possible!');
 
     return result;
 };
@@ -50,7 +50,7 @@ const sortToDecremeant = data => {
     const result = data.filter(item => !isNaN(item)).sort((a, b) => b - a);
 
     if (result.length === 0)
-        return console.log('There are no numbers in your data, sorting is not possible!');
+        return console.log('\nThere are no numbers in your data, sorting is not possible!');
 
     return result;
 };
@@ -59,7 +59,7 @@ const sortToWordLettersCount = data => {
     const result = data.filter(item => isNaN(item)).sort((a, b) => a.length - b.length);
 
     if (result.length === 0)
-        return console.log('There are no words in your data, sorting is not possible!');
+        return console.log('\nThere are no words in your data, sorting is not possible!');
 
     return result;
 };
@@ -70,7 +70,7 @@ const sortByUniqueWords = data => {
     );
 
     if (result.length === 0)
-        return console.log('There are no words in your data, sorting is not possible!');
+        return console.log('\nThere are no words in your data, sorting is not possible!');
 
     return result;
 };
@@ -100,7 +100,7 @@ const howToSortData = data => {
          \nPlease enter the desired sort number:`,
         answer => {
             if (answer === '') {
-                console.log('You did not enter a sort number!');
+                console.log('\nYou did not enter a sort number!');
                 return howToSortData(data);
             }
             if (answer === 'exit') return rl.close();
@@ -108,12 +108,12 @@ const howToSortData = data => {
             if (answer === 'restart') return app();
 
             if (!options[answer]) {
-                console.log('There is no such sort number!');
+                console.log('\nThere is no such sort number!');
                 return howToSortData(data);
             }
 
             if (options[answer]) {
-                options[answer](data) && console.log('Result: ', options[answer](data).join(' '));
+                options[answer](data) && console.log('\nResult: ', options[answer](data).join(' '));
                 return howToSortData(data);
             }
         }
