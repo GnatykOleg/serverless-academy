@@ -6,88 +6,85 @@ const rl = readline.createInterface({
 });
 
 const dataHelper = text => {
-    console.log(`${text}`);
+    console.log(text);
     return app();
 };
 
 const app = () => {
-    rl.question(`Hello. Enter 10 words or digits deviding them in spaces: `, answer => {
-        if (answer === 'exit') return rl.close();
+    rl.question(`\nHello. Enter 10 words or digits deviding them in spaces: `, inputData => {
+        if (inputData === 'exit') return rl.close();
 
-        if (!answer) return dataHelper('\nThe field cannot be empty! \n');
+        if (!inputData) return dataHelper('\nThe field cannot be empty!');
 
-        const data = answer.split(' ');
+        const inputDataToArray = inputData.split(' ');
 
-        if (data.length <= 1) return dataHelper('\nPlease enter more than 1 value \n');
+        if (inputDataToArray.length <= 1) return dataHelper('\nPlease enter more than 1 value');
 
-        if (data.length > 10)
-            return dataHelper(`You cannot enter more than 10 values, your values ${data.length}`);
+        if (inputDataToArray.length > 10)
+            return dataHelper(
+                `\nYou cannot enter more than 10 values, your values ${inputDataToArray.length}`
+            );
 
-        return howToSortData(data);
+        return howToSortData(inputDataToArray);
     });
-    7;
 };
 
-const sortByAlphabet = data => {
-    const result = data.filter(item => isNaN(item)).sort((a, b) => a.localeCompare(b));
+const arrayToFilterAndSort = ({ data, fooFilter, fooSort, word }) => {
+    const arrayToFilter = data.filter(fooFilter);
 
-    if (result.length === 0)
-        return console.log('\nThere are no words in your data, sorting is not possible!');
+    const result = fooSort ? arrayToFilter.sort(fooSort) : arrayToFilter;
 
-    return result;
+    return result.length
+        ? result
+        : console.log(`\nThere are no ${word} in your data, sorting is not possible!`);
 };
-
-const sortToIncremeant = data => {
-    const result = data.filter(item => !isNaN(item)).sort((a, b) => a - b);
-
-    if (result.length === 0)
-        return console.log('\nThere are no numbers in your data, sorting is not possible!');
-
-    return result;
-};
-
-const sortToDecremeant = data => {
-    const result = data.filter(item => !isNaN(item)).sort((a, b) => b - a);
-
-    if (result.length === 0)
-        return console.log('\nThere are no numbers in your data, sorting is not possible!');
-
-    return result;
-};
-
-const sortToWordLettersCount = data => {
-    const result = data.filter(item => isNaN(item)).sort((a, b) => a.length - b.length);
-
-    if (result.length === 0)
-        return console.log('\nThere are no words in your data, sorting is not possible!');
-
-    return result;
-};
-
-const sortByUniqueWords = data => {
-    const result = data.filter(
-        (item, index, array) => isNaN(item) && array.indexOf(item) === index
-    );
-
-    if (result.length === 0)
-        return console.log('\nThere are no words in your data, sorting is not possible!');
-
-    return result;
-};
-
-const sortByUniqueValues = data =>
-    data.filter((item, index, array) => array.indexOf(item) === index);
 
 const options = {
-    1: sortByAlphabet,
-    2: sortToIncremeant,
-    3: sortToDecremeant,
-    4: sortToWordLettersCount,
-    5: sortByUniqueWords,
-    6: sortByUniqueValues,
+    1: (sortByAlphabet = data =>
+        arrayToFilterAndSort({
+            data,
+            fooFilter: item => isNaN(item),
+            fooSort: (a, b) => a.localeCompare(b),
+            word: 'words',
+        })),
+    2: (sortToIncremeant = data =>
+        arrayToFilterAndSort({
+            data,
+            fooFilter: item => !isNaN(item),
+            fooSort: (a, b) => a - b,
+            word: 'numbers',
+        })),
+    3: (sortToDecremeant = data =>
+        arrayToFilterAndSort({
+            data,
+            fooFilter: item => !isNaN(item),
+            fooSort: (a, b) => b - a,
+            word: 'numbers',
+        })),
+    4: (sortToWordLettersCount = data =>
+        arrayToFilterAndSort({
+            data,
+            fooFilter: item => isNaN(item),
+            fooSort: (a, b) => a.length - b.length,
+            word: 'words',
+        })),
+    5: (sortByUniqueWords = data =>
+        arrayToFilterAndSort({
+            data,
+            fooFilter: (item, index, array) => isNaN(item) && array.indexOf(item) === index,
+            fooSort: null,
+            word: 'words',
+        })),
+    6: (sortByUniqueValues = data =>
+        arrayToFilterAndSort({
+            data,
+            fooFilter: (item, index, array) => array.indexOf(item) === index,
+            fooSort: null,
+            word: '',
+        })),
 };
 
-const howToSortData = data => {
+const howToSortData = inputDataArray => {
     rl.question(
         `\nWhat would you like to see in the output:
          \n1. Sort words alphabetically
@@ -98,23 +95,24 @@ const howToSortData = data => {
          \n6. Display only unique values from the set of words and numbers entered by the user
          \nAdditional commands "exit", "restart"
          \nPlease enter the desired sort number:`,
-        answer => {
-            if (answer === '') {
+        sortNumber => {
+            if (!sortNumber) {
                 console.log('\nYou did not enter a sort number!');
-                return howToSortData(data);
+                return howToSortData(inputDataArray);
             }
-            if (answer === 'exit') return rl.close();
+            if (sortNumber === 'exit') return rl.close();
 
-            if (answer === 'restart') return app();
+            if (sortNumber === 'restart') return app();
 
-            if (!options[answer]) {
+            if (!options[sortNumber]) {
                 console.log('\nThere is no such sort number!');
-                return howToSortData(data);
+                return howToSortData(inputDataArray);
             }
 
-            if (options[answer]) {
-                options[answer](data) && console.log('\nResult: ', options[answer](data).join(' '));
-                return howToSortData(data);
+            if (options[sortNumber]) {
+                options[sortNumber](inputDataArray) &&
+                    console.log(`\nResult: ${options[sortNumber](inputDataArray).join(' ')}`);
+                return howToSortData(inputDataArray);
             }
         }
     );
