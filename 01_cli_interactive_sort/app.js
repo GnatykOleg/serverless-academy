@@ -7,25 +7,26 @@ const rl = readline.createInterface({
 
 const dataHelper = text => {
     console.log(text);
-    return app();
+    return startApp();
 };
 
-const app = () => {
+const startApp = () => {
     rl.question(`\nHello. Enter 10 words or digits deviding them in spaces: `, inputData => {
-        if (inputData === 'exit') return rl.close();
-
-        if (!inputData) return dataHelper('\nThe field cannot be empty!');
-
-        const inputDataToArray = inputData.split(' ');
-
-        if (inputDataToArray.length <= 1) return dataHelper('\nPlease enter more than 1 value');
-
-        if (inputDataToArray.length > 10)
-            return dataHelper(
-                `\nYou cannot enter more than 10 values, your values ${inputDataToArray.length}`
-            );
-
-        return howToSortData(inputDataToArray);
+        const inputDataToArray = inputData.trim().split(' ');
+        switch (true) {
+            case inputData === 'exit':
+                return rl.close();
+            case !inputData:
+                return dataHelper('\nThe field cannot be empty!');
+            case inputDataToArray.length <= 1:
+                return dataHelper('\nPlease enter more than 1 value');
+            case inputDataToArray.length > 10:
+                return dataHelper(
+                    `\nYou cannot enter more than 10 values, your values ${inputDataToArray.length}`
+                );
+            default:
+                return howToSortData(inputDataToArray);
+        }
     });
 };
 
@@ -39,7 +40,7 @@ const arrayToFilterAndSort = ({ data, fooFilter, fooSort, word }) => {
         : console.log(`\nThere are no ${word} in your data, sorting is not possible!`);
 };
 
-const options = {
+const sortingOptions = {
     1: (sortByAlphabet = data =>
         arrayToFilterAndSort({
             data,
@@ -101,21 +102,20 @@ const howToSortData = inputDataArray => {
                 return howToSortData(inputDataArray);
             }
             if (sortNumber === 'exit') return rl.close();
-
-            if (sortNumber === 'restart') return app();
-
-            if (!options[sortNumber]) {
+            if (sortNumber === 'restart') return startApp();
+            if (!sortingOptions[sortNumber]) {
                 console.log('\nThere is no such sort number!');
                 return howToSortData(inputDataArray);
             }
-
-            if (options[sortNumber]) {
-                options[sortNumber](inputDataArray) &&
-                    console.log(`\nResult: ${options[sortNumber](inputDataArray).join(' ')}`);
+            if (sortingOptions[sortNumber]) {
+                sortingOptions[sortNumber](inputDataArray) &&
+                    console.log(
+                        `\nResult: ${sortingOptions[sortNumber](inputDataArray).join(' ')}`
+                    );
                 return howToSortData(inputDataArray);
             }
         }
     );
 };
 
-app();
+startApp();
