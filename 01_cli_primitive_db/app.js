@@ -30,9 +30,9 @@ const findUser = async () => {
 
             console.log(isUserExist);
             return findUser();
-        } else {
-            return null;
         }
+
+        return null;
     } catch (error) {
         console.log('\nerror.message', error.message);
     }
