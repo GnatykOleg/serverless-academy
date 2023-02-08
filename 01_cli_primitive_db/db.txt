@@ -1,0 +1,10 @@
+{"name":"valera","age":"23","gender":"male"}, 
+{"name":"Dima","age":"57","gender":"male"}, 
+{"name":"Alex","gender":"male"}, 
+{"name":"Dima4","gender":"female"}, 
+{"name":"Ludmila","age":"46","gender":"female"}, 
+{"name":"Word","gender":"male"}, 
+{"name":"w","gender":"male"}, 
+{"name":"124124","gender":"male"}, 
+{"name":"wodk","gender":"male"}, 
+{"name":"valera","age":"123","gender":"female"}
