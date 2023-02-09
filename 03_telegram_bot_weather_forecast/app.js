@@ -33,55 +33,69 @@ const interval = async ({ id, count, data, delay }) => {
 };
 
 const app = async () => {
-    await bot.setMyCommands([
-        { command: '/start', description: 'Start app' },
-        { command: '/weather_in_mariupol', description: 'Weather' },
-        { command: '/stop', description: 'Stop send weather' },
-    ]);
+    try {
+        await bot.setMyCommands([
+            { command: '/start', description: 'Start app' },
+            { command: '/weather_in_mariupol', description: 'Weather' },
+            { command: '/stop', description: 'Stop send weather' },
+        ]);
 
-    bot.on('message', async msg => {
-        const { text, chat } = msg;
+        bot.on('message', async msg => {
+            const { text, chat } = msg;
 
-        const data = await fetchData('Mariupol');
+            const data = await fetchData('Mariupol');
 
-        switch (text) {
-            case '/start':
-                await bot.sendMessage(chat.id, 'Hello!', mainMenu);
-                break;
+            switch (text) {
+                case '/start':
+                    await bot.sendMessage(chat.id, 'Hello!', mainMenu);
+                    break;
 
-            case 'Weather in Mariupol':
-            case '/weather_in_mariupol':
-                await bot.sendMessage(chat.id, data, weatherMenu);
-                break;
+                case 'Weather in Mariupol':
+                case '/weather_in_mariupol':
+                    await bot.sendMessage(chat.id, data, weatherMenu);
+                    break;
 
-            case 'Go Back':
-                await bot.sendMessage(chat.id, 'Return to main menu', mainMenu);
-                break;
+                case 'Go Back':
+                    await bot.sendMessage(chat.id, 'Return to main menu', mainMenu);
+                    break;
 
-            case 'Every 3 hours':
-                clearInterval(currentInterval);
+                case 'Every 3 hours':
+                    clearInterval(currentInterval);
 
-                currentInterval = await interval({ id: chat.id, count: '3', data, delay: 1000 });
-                break;
+                    currentInterval = await interval({
+                        id: chat.id,
+                        count: '3',
+                        data,
+                        delay: 1000,
+                    });
+                    break;
 
-            case 'Every 6 hours':
-                clearInterval(currentInterval);
+                case 'Every 6 hours':
+                    clearInterval(currentInterval);
 
-                currentInterval = await interval({ id: chat.id, count: '6', data, delay: 5000 });
-                break;
+                    currentInterval = await interval({
+                        id: chat.id,
+                        count: '6',
+                        data,
+                        delay: 5000,
+                    });
+                    break;
 
-            case '/stop':
-                await bot.sendMessage(chat.id, 'Weather messages disabled');
-                clearInterval(currentInterval);
-                break;
+                case '/stop':
+                    await bot.sendMessage(chat.id, 'Weather messages disabled');
+                    clearInterval(currentInterval);
+                    break;
 
-            default:
-                return await bot.sendMessage(
-                    chat.id,
-                    'There is no such command, enter / and you will see the available commands'
-                );
-        }
-    });
+                default:
+                    return await bot.sendMessage(
+                        chat.id,
+                        'There is no such command, enter / and you will see the available commands'
+                    );
+            }
+        });
+    } catch (error) {
+        console.log('error.message', error.message);
+    }
 };
 
 app();
