@@ -66,7 +66,7 @@ const app = async () => {
                         id: chat.id,
                         count: '3',
                         data,
-                        delay: 1000,
+                        delay: 10800000,
                     });
                     break;
 
@@ -77,7 +77,7 @@ const app = async () => {
                         id: chat.id,
                         count: '6',
                         data,
-                        delay: 5000,
+                        delay: 21600000,
                     });
                     break;
 
