@@ -4,4 +4,4 @@
 3.  CLI Telegram Console Sender link to full information
     [Third Task Readme](./02_cli_telegram_console_sender/readme.md)
 4.  Telegram Bot: Weather Forecast link to full information
-    [Third Task Readme](./03_telegram_bot_weather_forecast/readme.md)
+    [Fourth Task Readme](./03_telegram_bot_weather_forecast/readme.md)
