@@ -7,13 +7,6 @@ const fetchWeatherData = async (cityName, info) => {
             `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&units=metric&appid=${tokeWeatherApi}`
         );
 
-        // const {
-        //     main: { pressure, temp, feels_like },
-        //     dt_txt,
-        //     clouds,
-        //     wind,
-        // } = data.list[0];
-
         const { main, dt_txt, clouds, wind } = data.list[0];
 
         const { pressure, temp, feels_like } = main;
