@@ -5,3 +5,5 @@
     [Third Task Readme](./02_cli_telegram_console_sender/readme.md)
 4.  Telegram Bot: Weather Forecast link to full information
     [Fourth Task Readme](./03_telegram_bot_weather_forecast/readme.md)
+5.  Telegram Bot: Weather Forecast and Exchange Rates link to full information
+    [Fourth Task Readme](./04_telegram_bot_exchange_rates/readme.md)
