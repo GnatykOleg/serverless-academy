@@ -34,7 +34,7 @@ const app = async () => {
         bot.on('message', async ({ text, chat: { id } }) => {
             switch (text) {
                 case '/start':
-                    await bot.sendMessage(id, 'Приложение Обмена валют и погоды', mainMenu);
+                    await bot.sendMessage(id, 'Currency exchange and weather app', mainMenu);
                     break;
 
                 case 'Weather in Mariupol':
@@ -71,8 +71,7 @@ const app = async () => {
                     currentInterval = await interval({
                         id,
                         count: '3',
-                        // delay: 10800000,
-                        delay: 1000,
+                        delay: 10800000,
                     });
                     await bot.sendMessage(id, 'We send you weather every 3 hours', weatherMenu);
                     break;
@@ -81,8 +80,7 @@ const app = async () => {
                     currentInterval = await interval({
                         id,
                         count: '6',
-                        // delay: 21600000,
-                        delay: 5000,
+                        delay: 21600000,
                     });
                     await bot.sendMessage(id, 'We send you weather every 6 hours', weatherMenu);
                     break;

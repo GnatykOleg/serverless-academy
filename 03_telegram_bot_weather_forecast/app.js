@@ -62,8 +62,7 @@ const app = async () => {
                     currentInterval = await interval({
                         id,
                         count: '3',
-                        delay: 1000,
-                        // delay: 10800000,
+                        delay: 10800000,
                     });
                     break;
 
@@ -71,8 +70,7 @@ const app = async () => {
                     currentInterval = await interval({
                         id,
                         count: '6',
-                        delay: 5000,
-                        // delay: 21600000,
+                        delay: 21600000,
                     });
                     break;
 

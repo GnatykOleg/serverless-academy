@@ -26,29 +26,29 @@ const fetchExchangeRates = async key => {
 
         const monoResult = key === 'EUR' ? currencyMbEur : currencyMbUsd;
 
-        const iconCurrensy = key === 'EUR' ? 'EUR €' : 'USD $';
+        const iconCurrensy = key === 'EUR' ? 'EUR 💶' : 'USD 💵';
 
         return `
-💱 PrivatBank Exchange Rates:
+🏦 PrivatBank Exchange Rates:
 
 Currency: ${iconCurrensy}
 
-Base currency: UAH ₴
+🌍 Base currency: UAH ₴
 
-🛒 Buy: ${currencyPb.buy.slice(0, 5)}
+🪙 Buy: ${currencyPb.buy.toString().slice(0, 5)}
 
-🛒 Sale: ${currencyPb.sale.slice(0, 5)}
+🪙 Sale: ${currencyPb.sale.toString().slice(0, 5)}
 
 
-💱 Monobank Exchange Rates:
+🏦 Monobank Exchange Rates:
 
 Currency: ${iconCurrensy}
 
-Base currency: UAH ₴
+🌍 Base currency: UAH ₴
 
-🛒 Buy: ${monoResult.rateBuy}
+🪙 Buy: ${monoResult.rateBuy.toString().slice(0, 5)}
 
-🛒 Sale: ${monoResult.rateSell}
+🪙 Sale: ${monoResult.rateSell.toString().slice(0, 5)}
 `;
     } catch (error) {
         console.log('error.message', error.message);
@@ -56,3 +56,4 @@ Base currency: UAH ₴
 };
 
 module.exports = fetchExchangeRates;
+//
