@@ -1,48 +1,48 @@
 const axios = require('axios');
-
 const NodeCache = require('node-cache');
 const myCache = new NodeCache({ stdTTL: 60 });
 
-const fetchMonobankData = async () => {
-    const { data } = await axios.get(`https://api.monobank.ua/bank/currency`);
-    myCache.set('monobankData', data);
+const fetchPrivatBankData = async () => {
+    const { data } = await axios.get(`https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5`);
     return data;
 };
 
-const fetchPrivatBankData = async () => {
-    const { data } = await axios.get(`https://api.privatbank.ua/p24api/pubinfo?exchange&coursid=5`);
-
+const fetchMonoBankData = async () => {
+    const { data } = await axios.get(`https://api.monobank.ua/bank/currency`);
+    myCache.set('monoBankData', data);
     return data;
 };
 
 const fetchExchangeRates = async key => {
     try {
-        const monobankData = (await myCache.get('monobankData')) || (await fetchMonobankData());
         const privatBankData = await fetchPrivatBankData();
 
-        const usd = monobankData.find(el => el.currencyCodeA === 840);
-        const eur = monobankData.find(el => el.currencyCodeA === 978);
+        const currencyPb = privatBankData.find(({ ccy }) => key === ccy);
 
-        const result = privatBankData.find(el => key === el.ccy);
+        const monoBankData = (await myCache.get('monoBankData')) || (await fetchMonoBankData());
 
-        const monoResult = key === 'EUR' ? eur : usd;
+        const currencyMbUsd = monoBankData.find(({ currencyCodeA }) => currencyCodeA === 840);
+        const currencyMbEur = monoBankData.find(({ currencyCodeA }) => currencyCodeA === 978);
 
-        const iconCurrensy = key === 'EUR' ? '€' : '$';
+        const monoResult = key === 'EUR' ? currencyMbEur : currencyMbUsd;
+
+        const iconCurrensy = key === 'EUR' ? 'EUR €' : 'USD $';
 
         return `
 💱 PrivatBank Exchange Rates:
 
-Сurrency: ${result.ccy} ${iconCurrensy}
+Currency: ${iconCurrensy}
 
 Base currency: UAH ₴
 
-🛒 Buy: ${result.buy.slice(0, 5)}
+🛒 Buy: ${currencyPb.buy.slice(0, 5)}
 
-🛒 Sale: ${result.sale.slice(0, 5)}
+🛒 Sale: ${currencyPb.sale.slice(0, 5)}
+
 
 💱 Monobank Exchange Rates:
 
-Сurrency: ${result.ccy} ${iconCurrensy}
+Currency: ${iconCurrensy}
 
 Base currency: UAH ₴
 
