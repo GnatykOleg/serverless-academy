@@ -95,12 +95,8 @@ const getDataFromDb = async () => {
 };
 
 const app = async () => {
-    try {
-        await addUser();
-        await getDataFromDb();
-    } catch (error) {
-        console.log('\nerror.message', error.message);
-    }
+    await addUser();
+    await getDataFromDb();
 };
 
 app();
