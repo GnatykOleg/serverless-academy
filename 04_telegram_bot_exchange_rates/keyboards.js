@@ -27,7 +27,7 @@ const weatherMenu = {
                 { text: 'Every 6 hours' },
                 { text: 'Stop sending weather' },
             ],
-            [{ text: 'Wind' }],
+            [{ text: 'Additional info' }],
             [{ text: 'Go Back' }],
         ],
     }),

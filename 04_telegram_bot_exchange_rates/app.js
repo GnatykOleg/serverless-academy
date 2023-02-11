@@ -27,7 +27,7 @@ const app = async () => {
         await bot.setMyCommands([
             { command: '/start', description: 'Start app' },
             { command: '/weather_in_mariupol', description: 'Weather' },
-            { command: '/exchange_rates', description: 'Weather' },
+            { command: '/exchange_rates', description: 'Exchange rates' },
             { command: '/stop', description: 'Stop send weather' },
         ]);
 
@@ -48,7 +48,7 @@ const app = async () => {
                     await bot.sendMessage(id, 'Exchange Rates Menu', exchangeRatesMenu);
                     break;
 
-                case 'Wind':
+                case 'Additional info':
                     const windData = await fetchWeatherData('Mariupol');
                     await bot.sendMessage(id, windData, weatherMenu);
                     break;

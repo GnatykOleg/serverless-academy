@@ -21,10 +21,17 @@ const fetchExchangeRates = async key => {
 
         const monoBankData = (await myCache.get('monoBankData')) || (await fetchMonoBankData());
 
-        const currencyMbUsd = monoBankData.find(({ currencyCodeA }) => currencyCodeA === 840);
-        const currencyMbEur = monoBankData.find(({ currencyCodeA }) => currencyCodeA === 978);
+        const currencyMbUsd = monoBankData.find(
+            ({ currencyCodeA, currencyCodeB }) => currencyCodeA === 840 && currencyCodeB === 980
+        );
+        const currencyMbEur = monoBankData.find(
+            ({ currencyCodeA, currencyCodeB }) => currencyCodeA === 978 && currencyCodeB === 980
+        );
 
-        const monoResult = key === 'EUR' ? currencyMbEur : currencyMbUsd;
+        if (!currencyMbUsd || !currencyMbEur)
+            return console.log('Sorry we dont find usd or eur currency to uah');
+
+        const monoBankResult = key === 'EUR' ? currencyMbEur : currencyMbUsd;
 
         const iconCurrensy = key === 'EUR' ? 'EUR 💶' : 'USD 💵';
 
@@ -46,9 +53,11 @@ Currency: ${iconCurrensy}
 
 🌍 Base currency: UAH ₴
 
-🪙 Buy: ${monoResult.rateBuy.toString().slice(0, 5)}
+🪙 Buy: ${monoBankResult.rateBuy.toString().slice(0, 5)}
 
-🪙 Sale: ${monoResult.rateSell.toString().slice(0, 5)}
+🪙 Sale: ${monoBankResult.rateSell.toString().slice(0, 5)}
+
+📅 ${new Date(monoBankResult.date * 1000).toLocaleString()} 
 `;
     } catch (error) {
         console.log('error.message', error.message);
@@ -56,4 +65,3 @@ Currency: ${iconCurrensy}
 };
 
 module.exports = fetchExchangeRates;
-//
