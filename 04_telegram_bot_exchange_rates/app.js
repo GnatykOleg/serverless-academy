@@ -87,8 +87,13 @@ const app = async () => {
 
                 case '/stop':
                 case 'Stop sending weather':
-                    await bot.sendMessage(id, 'Weather messages disabled', mainMenu);
+                    const str = currentInterval
+                        ? 'Weather messages disabled'
+                        : 'You dont have weather alerts turned on!';
+
+                    await bot.sendMessage(id, str, weatherMenu);
                     clearInterval(currentInterval);
+                    currentInterval = null;
                     break;
 
                 default:
