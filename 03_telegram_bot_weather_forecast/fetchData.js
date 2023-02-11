@@ -7,34 +7,26 @@ const fetchWeatherData = async cityName => {
             `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&cnt=1&units=metric&appid=${tokeWeatherApi}`
         );
 
-        const { main, dt_txt, clouds, wind, weather } = data.list[0];
+        const { main, dt_txt, clouds, wind, pop } = data.list[0];
 
-        const { sunrise, sunset } = data.city;
-
-        const { pressure, temp, feels_like, temp_min, temp_max, sea_level } = main;
+        const { pressure, temp, feels_like, humidity } = main;
 
         const fullWeatherInfo = `
 🌡 Temperature: ${Math.round(temp)}℃ 
 
-🌡 Feels like temp: ${Math.round(feels_like)}℃ 
+🌡 Feels like temp: ${Math.round(feels_like)}℃
 
-🥶 Min temperature: ${Math.round(temp_min)}℃ 
+💧 Humidity: ${humidity}%
 
-🥵 Max temperature: ${Math.round(temp_max)}℃ 
+💨 Wind: ${wind.speed}m/s
 
-🌊 Sea level: ${sea_level}
+↘ Pressure: ${pressure}hPa 
 
 ☁️ Clouds: ${clouds.all}% 
 
- ↘ Pressure: ${pressure}mmHg  
+🌧 Probability of precipitation: ${pop}%
 
- 🌦 Sky: ${weather[0].description}
-
- 🌅 Sunrise: ${new Date(sunrise * 1000).toLocaleTimeString()}
-
- 🌇 Sunset: ${new Date(sunset * 1000).toLocaleTimeString()}
-
- 📅 The summary is up-to-date on : ${dt_txt} `;
+📅 Actual on : ${dt_txt} `;
 
         return fullWeatherInfo;
     } catch (error) {
