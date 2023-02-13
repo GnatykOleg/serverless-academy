@@ -1,8 +1,8 @@
 const TelegramBot = require('node-telegram-bot-api');
 
-const tokenTelegram = '6146937288:AAHJVBz0qHpNred3GTBPzNtZLZrL80NNe4w';
+const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
 
-const bot = new TelegramBot(tokenTelegram, { polling: true });
+const bot = new TelegramBot(TELEGRAM_TOKEN, { polling: true });
 
 const fetchData = require('./fetchData');
 

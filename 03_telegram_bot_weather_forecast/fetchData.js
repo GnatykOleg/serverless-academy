@@ -1,10 +1,14 @@
 const axios = require('axios');
-const tokeWeatherApi = 'ea60c8d4b8ef95379a41a0042ced5457';
+
+const TOKEN_WEATHER_API = process.env.TOKEN_WEATHER_API;
+
+console.log('TOKEN_WEATHER_API', TOKEN_WEATHER_API);
 
 const fetchWeatherData = async cityName => {
     try {
+        console.log('TOKEN_WEATHER_API во время вызова', TOKEN_WEATHER_API);
         const { data } = await axios.get(
-            `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&cnt=1&units=metric&appid=${tokeWeatherApi}`
+            `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&cnt=1&units=metric&appid=${TOKEN_WEATHER_API}`
         );
 
         const { main, dt_txt, clouds, wind, pop } = data.list[0];
