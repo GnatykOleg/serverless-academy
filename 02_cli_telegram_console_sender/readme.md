@@ -1,5 +1,5 @@
-New day, new CLI application. In this task we will create a simple telegram bot that can act as
-notes or notepad when you need to save something urgently from the console.
+In this task we will create a simple telegram bot that can act as notes or notepad when you need to
+save something urgently from the console.
 
 ## Tools and libraries you can use
 

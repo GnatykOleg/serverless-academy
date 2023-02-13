@@ -2,10 +2,10 @@ const TelegramBot = require('node-telegram-bot-api');
 
 const { Command } = require('commander');
 
-const token = '5632545680:AAHLlnvx4kUWEX5WCRpzUJqN3ADc7ny9f4M';
-const chatId = '507043587';
+const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
+const CHAT_ID = process.env.CHAT_ID;
 
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(TELEGRAM_TOKEN, { polling: true });
 
 const program = new Command();
 
@@ -17,7 +17,7 @@ program
     .description('Send message to telegram bot')
     .argument('<string>')
     .action(async msg => {
-        await bot.sendMessage(chatId, msg);
+        await bot.sendMessage(CHAT_ID, msg);
         process.exit();
     });
 
@@ -27,7 +27,7 @@ program
     .description('Send photo to telegram bot, just drag and drop in console after command')
     .argument('<photo>')
     .action(async photo => {
-        await bot.sendPhoto(chatId, photo);
+        await bot.sendPhoto(CHAT_ID, photo);
         process.exit();
     });
 

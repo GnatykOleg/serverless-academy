@@ -1,13 +1,13 @@
 {
-  "name": "01_cli_interactive_sort",
-  "version": "1.0.0",
-  "description": "A small CLI application to sort the entered data.",
-  "main": "index.js",
-  "scripts": {
-    "start": "node app",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "Yavenir",
-  "license": "ISC"
+    "name": "01_cli_interactive_sort",
+    "version": "1.0.0",
+    "description": "A small CLI application to sort the entered data.",
+    "main": "index.js",
+    "scripts": {
+        "start": "node app.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "Yavenir",
+    "license": "ISC"
 }
