@@ -22,12 +22,8 @@ const weatherMenu = {
         one_time_keyboard: true,
 
         keyboard: [
-            [
-                { text: 'Every 3 hours' },
-                { text: 'Every 6 hours' },
-                { text: 'Stop sending weather' },
-            ],
-            [{ text: 'Additional info' }],
+            [{ text: 'Interval 3 hours' }, { text: 'Interval 6 hours' }],
+            [{ text: 'Current weather' }],
             [{ text: 'Go Back' }],
         ],
     }),

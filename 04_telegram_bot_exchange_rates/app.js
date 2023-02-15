@@ -1,25 +1,16 @@
 const TelegramBot = require('node-telegram-bot-api');
 
-const tokenTelegram = '6046462625:AAH1gHvBU2_OhuZ4SAr6qJgEIyjxgacqMwI';
+const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
 
-const bot = new TelegramBot(tokenTelegram, { polling: true });
+const bot = new TelegramBot(TELEGRAM_TOKEN, { polling: true });
 
 const fetchWeatherData = require('./fetchWeatherData');
 
 const fetchExchangeRates = require('./fetchExchangeRates');
 
+const fetchAdditionalFullInfo = require('./fetchAdditionalFullInfo');
+
 const { mainMenu, exchangeRatesMenu, weatherMenu } = require('./keyboards');
-
-let currentInterval;
-
-const interval = async ({ id, count, delay }) => {
-    if (currentInterval) clearInterval(currentInterval);
-
-    return setInterval(async () => {
-        const weatherData = await fetchWeatherData('Mariupol', 'full');
-        await bot.sendMessage(id, `Weather every ${count} hours: \n${weatherData}`);
-    }, delay);
-};
 
 const app = async () => {
     console.log('App starting');
@@ -28,7 +19,6 @@ const app = async () => {
             { command: '/start', description: 'Start app' },
             { command: '/weather_in_mariupol', description: 'Weather' },
             { command: '/exchange_rates', description: 'Exchange rates' },
-            { command: '/stop', description: 'Stop send weather' },
         ]);
 
         bot.on('message', async ({ text, chat: { id } }) => {
@@ -39,8 +29,7 @@ const app = async () => {
 
                 case 'Weather in Mariupol':
                 case '/weather_in_mariupol':
-                    const weatherData = await fetchWeatherData('Mariupol', 'full');
-                    await bot.sendMessage(id, weatherData, weatherMenu);
+                    await bot.sendMessage(id, 'Weather menu', weatherMenu);
                     break;
 
                 case 'Exchange Rates':
@@ -48,9 +37,9 @@ const app = async () => {
                     await bot.sendMessage(id, 'Exchange Rates Menu', exchangeRatesMenu);
                     break;
 
-                case 'Additional info':
-                    const windData = await fetchWeatherData('Mariupol');
-                    await bot.sendMessage(id, windData, weatherMenu);
+                case 'Current weather':
+                    const data = await fetchAdditionalFullInfo('Mariupol');
+                    await bot.sendMessage(id, data, weatherMenu);
                     break;
 
                 case 'USD':
@@ -67,33 +56,22 @@ const app = async () => {
                     await bot.sendMessage(id, 'Return to main menu', mainMenu);
                     break;
 
-                case 'Every 3 hours':
-                    currentInterval = await interval({
-                        id,
-                        count: '3',
-                        delay: 10800000,
+                case 'Interval 3 hours':
+                    const weatherDataThreeHours = await fetchWeatherData({
+                        city: 'Mariupol',
+                        hours: 3,
                     });
-                    await bot.sendMessage(id, 'We send you weather every 3 hours', weatherMenu);
+
+                    await bot.sendMessage(id, weatherDataThreeHours, weatherMenu);
                     break;
 
-                case 'Every 6 hours':
-                    currentInterval = await interval({
-                        id,
-                        count: '6',
-                        delay: 21600000,
+                case 'Interval 6 hours':
+                    const weatherDataSixHours = await fetchWeatherData({
+                        city: 'Mariupol',
+                        hours: 6,
                     });
-                    await bot.sendMessage(id, 'We send you weather every 6 hours', weatherMenu);
-                    break;
 
-                case '/stop':
-                case 'Stop sending weather':
-                    const str = currentInterval
-                        ? 'Weather messages disabled'
-                        : 'You dont have weather alerts turned on!';
-
-                    await bot.sendMessage(id, str, weatherMenu);
-                    clearInterval(currentInterval);
-                    currentInterval = null;
+                    await bot.sendMessage(id, weatherDataSixHours, weatherMenu);
                     break;
 
                 default:

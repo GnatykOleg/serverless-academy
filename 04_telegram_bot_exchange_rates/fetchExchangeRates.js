@@ -29,7 +29,7 @@ const fetchExchangeRates = async key => {
         );
 
         if (!currencyMbUsd || !currencyMbEur)
-            return console.log('Sorry we dont find usd or eur currency to uah');
+            return 'Sorry we dont find usd or eur currency to uah';
 
         const monoBankResult = key === 'EUR' ? currencyMbEur : currencyMbUsd;
 
@@ -57,7 +57,7 @@ Currency: ${iconCurrensy}
 
 🪙 Sale: ${monoBankResult.rateSell.toString().slice(0, 5)}
 
-📅 ${new Date(monoBankResult.date * 1000).toLocaleString()} 
+
 `;
     } catch (error) {
         console.log('error.message', error.message);
